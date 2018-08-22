@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.dao.BusinessDao">
+    
+    <resultMap type="Business" id="BusinessMap">
+		<id column="id" property="id" />
+			<result column="img_file_name" property="imgFileName" />
+			<result column="title" property="title" />
+			<result column="subtitle" property="subTitle" />
+			<result column="price" property="price" />
+			<result column="distance" property="distance" />
+			<result column="number" property="number" />
+			<result column="desc" property="desc" />
+			<result column="city" property="city" />
+			<result column="category" property="category" />
+			<result column="star_total_num" property="starTotalNum" />
+			<result column="comment_total_num" property="commentTotalNum" />
+			
+			<association property="cityDic" javaType="Dic">
+			    <result column="dic_city" property="name"/>
+			</association>
+			
+			<association property="categoryDic" javaType="Dic">
+			    <result column="dic_category" property="name"/>
+			</association>
+	</resultMap>
+    
+	<select id="selectByPage" resultMap="BusinessMap">
+		select b.id,b.img_file_name,b.title,b.subtitle,b.price,b.distance,b.number,
+		b.`desc`,b.city,b.category,b.star_total_num,b.comment_total_num,d1.name dic_city,
+		d2.name dic_category
+		from business b
+		left join dic d1 on b.city=d1.code and d1.type='${@org.constant.DicTypeConst@CITY}'
+		left join dic d2 on b.category=d2.code and d2.type='${@org.constant.DicTypeConst@CATEGORY}'
+		<where>
+		  <if test="title!=null and title!=''">
+		      title like '%' #{title} '%'
+		  </if>
+		</where>
+		order by id desc
+	</select>
+	
+	<select id="selectLikeByPage" resultType="Business">
+	   select id,img_file_name,title,subtitle,price,distance,number,'desc',city,category,
+	   star_total_num,comment_total_num from business
+	   <where>
+		    <if test="title!=null and title !='' and subTitle!=null and subTitle!=''
+		    and desc!=null and desc !=''">
+		    and
+		    title like '%' #{title} '%' or subtitle like '%' #{subTitle} '%' or `desc` like
+		    '%' #{desc} '%'
+		    </if>
+			<if test="city != null and city != ''">
+				and city=#{city} 
+			</if>
+			<if test="category!=null and category !='' and category !='all'">
+			    and category=#{category}
+			</if>
+		</where>
+		order by id
+	</select>
+	
+	
+	<select id="selectById" resultMap="BusinessMap">
+		select id,img_file_name,title,subtitle,price,distance,number,`desc`,city,category,star_total_num,
+		comment_total_num from business
+		where id=#{_parameter}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+	    delete from business where id=#{_parameter}
+	</delete>
+	
+	<insert id="add">
+	    insert into business(img_file_name,title,subtitle,price,distance,number,`desc`,city,category,star_total_num,
+		comment_total_num)
+		values(#{imgFileName},#{title},#{subTitle},#{price},#{distance},#{number},#{desc},#{city}
+		,#{category},#{starTotalNum},#{commentTotalNum})
+	</insert>
+	
+	<update id="update">
+	    update business
+		<set>
+		    <if test="imgFileName!=null">
+		        img_file_name=#{imgFileName},
+		    </if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="subTitle != null">
+				subtitle = #{subTitle},
+			</if>
+			<if test="price != null">
+				price = #{price},
+			</if>
+			<if test="distance != null">
+				distance = #{distance},
+			</if>
+			<if test="category != null">
+				category = #{category},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="number != null">
+				number = #{number},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+</mapper>
