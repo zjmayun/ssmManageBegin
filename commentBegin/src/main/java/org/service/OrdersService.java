@@ -12,4 +12,6 @@ public interface OrdersService {
      boolean insert(OrdersDto ordersDto);
      
      boolean update(OrdersDto ordersDto);
+     
+     Orders getOrdersId(Integer id);
 }

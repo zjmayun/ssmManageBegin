@@ -1,7 +1,19 @@
 package org.service;
 
-import org.bean.User;
+import java.util.List;
+
+import org.dto.UserDto;
 
 public interface UserService {
-    boolean validate(User user);
+    boolean validate(UserDto userDto);
+    
+    List<UserDto> selectListUser();
+    
+    boolean add(UserDto userDto);
+    
+    boolean delete(int id);
+    
+    boolean modify(UserDto userDto);
+    
+    UserDto selectById(int id);
 }

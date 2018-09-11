@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.dao.MenuDao">
+
+      <resultMap type="Menu" id="MenuWithAction">
+          <id column="id" property="id"/>
+          <result column="name" property="name"/>
+          <result column="url" property="url"/>
+          <result column="parent_id" property="parentId"/>
+          <result column="order_num" property="orderNum"/>
+      <collection property="actionList" javaType="list" resultMap="org.dao.ActionDao.ActionResultMap"/>           
+      </resultMap>
+      
+      <select id="selectMenuWithAction" resultMap="MenuWithAction">
+          select m.id,m.name,m.url,m.parent_id,m.order_num,a.id action_id,
+          a.name action_name,a.url action_url,a.menu_id action_menu_id,a.method from sys_menu m
+          left join sys_action a on m.id=a.menu_id
+          <where>
+             <if test="parentId!=null">
+               and m.parent_id=#{parentId}
+             </if>
+          </where>          
+          order by m.order_num,convert(a.name using gbk) collate gbk_chinese_ci
+      </select>
+
+      <select id="selectListMenu" resultType="Menu">
+          select id,name,url,parent_id,order_num from sys_menu
+      </select>
+      
+      <select id="selectById" resultType="Menu">
+          select id,name,url,parent_id,order_num from sys_menu
+          where id=#{id}
+      </select>
+      
+      <insert id="insert">
+          insert into sys_menu(id,name,url,parent_id,order_num)
+          values(#{id},#{name},#{url},#{parentId},#{orderNum})
+      </insert>
+      
+      <update id="modify">
+         update sys_menu
+         <set>
+            <if test="name!=null">
+               name=#{name},
+            </if>
+            <if test="url!=null">
+               url=#{url},
+            </if>
+            <if test="parentId!=null">
+               parent_id=#{parentId},
+            </if>
+            <if test="orderNum!=null">
+               order_num=#{orderNum},
+            </if>
+         </set>
+         where id=#{id}
+      </update>
+
+      <delete id="delete">
+      delete from sys_menu where id=#{_parameter}
+      </delete>
+      
+      <update id="updateOrderNumInner">
+          update sys_menu set order_num=order_num+1 where parent_id=#{parentId}
+      </update>
+      
+      <update id="updateOrderNumPrev">
+          update sys_menu m set order_num=order_num+1
+          where exists(select 1 from(select m1.parent_id,m1.order_num from sys_menu m1
+          where id=#{_parameter})a where a.parent_id=m.parent_id and m.order_num>=a.order_num
+          )
+      </update>
+      
+      <update id="updateOrderNumNext">
+          update sys_menu m set order_num=order_num+1
+          where exists(select 1 from(select m1.parent_id,m1.order_num from sys_menu m1
+          where id=#{_parameter})a where a.parent_id=m.parent_id and m.order_num>a.order_num
+          )
+      </update>
+      
+      
+</mapper>

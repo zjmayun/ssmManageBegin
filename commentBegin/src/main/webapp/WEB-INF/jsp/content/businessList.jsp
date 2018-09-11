@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="${basePath}/js/content/businessList.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
-		<form action="${basePath}/business" id="mainForm" method="post">
+		<form action="${basePath}/businesses" id="mainForm" method="post">
 		    <input type="hidden" id="id" name="id"/>
 		    <input type="hidden" name="_method" value="DELETE"/>
 			<input type="hidden" id="basePath" value="${basePath}"/>
@@ -32,8 +32,12 @@
 									<input name="title" id="title" value="" class="allInput" type="text"/>
 								</td>
 	                            <td style="text-align: right;" width="150">
+	                                <t:auth url="/businesses" method="GET">
 	                            	<input class="tabSub" value="查询" onclick="search('1');" type="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
-	                            		<input class="tabSub" value="添加" onclick="location.href='${basePath}/business/addInit'" type="button"/>
+	                            	</t:auth>	
+	                            	<t:auth url="/businesses/addPage" method="GET">
+	                            		<input class="tabSub" value="添加" onclick="location.href='${basePath}/businesses/addPage'" type="button"/>
+	                                </t:auth>
 	                            </td>
 	       					</tr>
 						</tbody>
@@ -58,8 +62,12 @@
 										<td>${item.cityDic.name}</td>
 										<td>${item.categoryDic.name}</td>
 										<td>
+										        <t:auth url="/businesses/${item.id}" method="PUT">
 												<a href="javascript:void(0);" onclick="modifyInit('${item.id}')">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+												</t:auth>
+												<t:auth url="/businesses/${item.id}" method="DELETE">
 												<a href="javascript:void(0);" onclick="remove('${item.id}')">删除</a>
+										        </t:auth>
 										</td>
 									</tr>
 								</c:forEach>

@@ -1,13 +1,22 @@
 package org.bean;
 
-public class Orders {
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
+public class Orders extends BasePage{
 	private Integer id;
 	private Integer businessId;
 	private Integer memberId;
+	//消费人数
 	private Integer num;
+	//评论状态0-未评论  2-已评论
 	private Integer commentState;
 	private Long price;
-
+    private Date createTime;
+	
 	private Business business;
 	private Member member;
 	
@@ -25,6 +34,14 @@ public class Orders {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public Integer getNum() {

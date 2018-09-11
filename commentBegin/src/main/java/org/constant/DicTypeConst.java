@@ -5,6 +5,7 @@ public class DicTypeConst {
      
      public static final String CITY="city";
      
+     //动作常量定义
      public static final String HTTPACTION="httpMethod";
 
 }

@@ -59,5 +59,12 @@ public class OrdersServiceImpl implements OrdersService{
 		return i==1;
 	}
 
+	@Override
+	public Orders getOrdersId(Integer id) {
+		Orders orders=new Orders();
+		orders.setId(id);
+		return ordersDao.selectById(orders);
+	}
+
 
 }

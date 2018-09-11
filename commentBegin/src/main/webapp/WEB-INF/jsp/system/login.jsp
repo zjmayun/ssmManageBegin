@@ -20,7 +20,7 @@
 		    <div class="header hide"></div>
 		    <div class="content">
 		        <div class="title hide"></div>
-		        <form id="mainForm" method="post" action="${basePath}/validate">
+		        <form id="mainForm" method="post" action="${basePath}/login/validate">
 		            <fieldset>
 		                <div class="input">
 		                    <input class="input_all name" name="username" id="name" placeholder="用户名" type="text" onFocus="this.className='input_all name_now';" onBlur="this.className='input_all name'"/>

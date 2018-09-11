@@ -5,7 +5,7 @@ public class User {
 	private String username;
 	private String password;
 	private String chName;
-    private int groupId;
+    private Integer groupId;
     
 	public int getId() {
 		return id;
@@ -31,12 +31,13 @@ public class User {
 	public void setChName(String chName) {
 		this.chName = chName;
 	}
-	public int getGroupId() {
+	public Integer getGroupId() {
 		return groupId;
 	}
-	public void setGroupId(int groupId) {
+	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
+	
     
     
 }

@@ -11,5 +11,5 @@ public interface OrdersDao {
 	
 	List<Orders> selectByMemberId(Integer memberId);
 	
-	
+	Orders selectById(Orders orders);
 }

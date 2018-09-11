@@ -70,6 +70,7 @@
 		                    <a href="javascript:void(0);" onclick="if(confirm('您确认退出系统?')){$('#mainForm').submit();};">[退出系统]</a>
 		                </div>
 		            </div>
+		            <!--父菜单id初始化子菜单  -->
 		            <ul class="nav" id="menuDiv">
 		            </ul>
 		        </div>

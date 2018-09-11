@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.constant.SessionKeyConst;
+import org.dto.ActionDto;
+
 
 /**
  * 共通工具类.
@@ -24,6 +27,13 @@ public class CommonUtil {
 		return false;
 	}
 
+	public static boolean isNull(Object object) {
+		if(object!=null) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * 生成指定位数的随机整数
 	 * 
@@ -42,6 +52,24 @@ public class CommonUtil {
 	 */
 	public static String getUUID() {
 		return UUID.randomUUID().toString().replace("-", "");
+	}
+	
+	//我真的是操蛋了这代码了
+	public static boolean contains(HttpSession session,String url,String method) {
+		Object object=session.getAttribute(SessionKeyConst.ACTION_INFO);
+		if(object!=null) {
+			List<ActionDto> list=(List<ActionDto>)object;
+			for(ActionDto actionDto:list) {
+				if(!isEmpty(actionDto.getMethod())&&!actionDto.getMethod().equals(method)) {
+					continue;
+				}
+				if(!url.matches(actionDto.getUrl())) {
+					continue;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

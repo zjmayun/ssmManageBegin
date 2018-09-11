@@ -1,6 +1,6 @@
 function remove(id) {
-	$("#id").val(id);
-	$("#mainForm").attr("action",$("#basePath").val() + "/business/delete");
+	var id=$("#id").val(id);
+	$("#mainForm").attr("action",$("#basePath").val() + "/businesses/"+id);
 	$("#mainForm").submit();
 }
 
@@ -11,5 +11,5 @@ function search(currentPage) {
 }
 
 function modifyInit(id) {
-	location.href = $("#basePath").val() + "/business/modifyInit/" + id;
+	location.href = $("#basePath").val() + "/businesses/" + id;
 }

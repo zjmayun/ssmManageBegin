@@ -54,6 +54,7 @@ public class BusinessServiceImpl implements BusinessService{
         BusinessDto businessDto=new BusinessDto();
         BeanUtils.copyProperties(business, businessDto);
         businessDto.setImg(businessImageUrl+business.getImgFileName());
+        businessDto.setStar(this.getStar(businessDto));
 		return businessDto;
 	}
 
@@ -110,6 +111,9 @@ public class BusinessServiceImpl implements BusinessService{
 			 try {
 				businessDto.getFile().transferTo(new File(businessSavePath+fileName));
 				business.setImgFileName(fileName);
+				business.setNumber(0);
+				business.setCommentTotalNum(0);
+				business.setStarTotalNum(0);
 				int i=businessDao.add(business);
 				return i==1;
 			} catch (IllegalStateException e) {
@@ -146,6 +150,13 @@ public class BusinessServiceImpl implements BusinessService{
             listdto.add(bto);
         }
 		return btolist;
+	}
+	
+	public int getStar(BusinessDto businessDto) {
+		if(businessDto.getStarTotalNum()!=null&&businessDto.getCommentTotalNum()!=null&&businessDto.getCommentTotalNum()>0) {
+			return (int)(businessDto.getStarTotalNum()/businessDto.getCommentTotalNum());
+		}
+		return 0;
 	}
 	
 	
